@@ -7,41 +7,34 @@
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
 using System;
+using System.Runtime.CompilerServices;
 
 namespace Biblioteca
 {
-	/// <summary>
-	/// Description of Libro.
-	/// </summary>
+	public enum EstadoLibro
+	{
+		Disponible,Prestado
+	}
 	public class Libro
 	{
 		private int codigo;
 		private string titulo;
 		private string autor;
 		private string editorial;
-		private DateTime fechaPrestamo;
-		private DateTime fechaDevolucion;
-		private string estadoLibro;
-		private int dnisocioPres;
+		private EstadoLibro estadoLibro;
 		
-		//Constructor Libro
-		public Libro(int codigo, string titulo, string autor, string editorial, DateTime fechaPrestamo, DateTime fechaDevolucion,string estadoLibro, int dnisocioPres)
+		public Libro(int codigo, string titulo, string autor, string editorial)
 		{
 			this.codigo=codigo;
 			this.titulo=titulo;
 			this.autor=autor;
 			this.editorial=editorial;
-			this.fechaPrestamo=fechaPrestamo;
-			this.fechaDevolucion=fechaDevolucion;
-			this.estadoLibro=estadoLibro;
-			this.dnisocioPres=dnisocioPres;
+			estadoLibro=EstadoLibro.Disponible;
 		}
-		
-		//Propiedades
+	
 		public int Codigo
 		{
-			get { return codigo; }
-			set { codigo = value; }  // lo di vuelta orque me provocaba un bucle  
+			get {return codigo;}
 		}
 
 		public string Titulo
@@ -62,29 +55,11 @@ namespace Biblioteca
 			get{return editorial;}
 		}
 
-		public DateTime FechaPrestamo
+		public EstadoLibro EstadoLibro
 		{
-			set{fechaPrestamo=value;}
-			get{return fechaPrestamo;}
-		}
-
-		public DateTime FechaDevolucion
-		{
-			set{fechaDevolucion=value;}
-			get{return fechaDevolucion;}
-		}
-		
-		public string EstadoLibro
-		{
-			set{estadoLibro=value;}
 			get{return estadoLibro;}
 		}
 		
-		public int SocioPres
-		{
-			set{dnisocioPres=value;}
-			get{return dnisocioPres;}
-		}
 		
 	}
 }

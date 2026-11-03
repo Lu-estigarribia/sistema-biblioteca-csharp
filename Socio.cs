@@ -33,12 +33,12 @@ namespace Biblioteca
 			this.telefono=telefono;
 			this.direccion=direccion;
 			this.cantLibrospres=cantLibrospres;
+			this.libroPres=libroPres;
 		}
 		
 		//Propiedades
 		public int Dni
 		{
-			set{dni=value;}
 			get{return dni;}
 		}
 
@@ -68,17 +68,13 @@ namespace Biblioteca
 
 		public int CantLibrospres
 		{
-			set{cantLibrospres=value;}
-			get{return cantLibrospres;}
+			get{return cantLibrospres;}//se modifica mediante metodos
 		}
 		
 		public Libro LibroPres
 		{
-			set{libroPres=value;}
 			get{return libroPres;}
 		}
-		
-		//Metodos socio
 		
 	}
 }
