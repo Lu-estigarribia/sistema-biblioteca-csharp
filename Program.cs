@@ -7,7 +7,7 @@
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
 using System;
-using System.Collections;
+using System.Collections.Generic;
 
 namespace Biblioteca
 {
@@ -16,7 +16,7 @@ namespace Biblioteca
 		public static void Main(string[] args)
 		{
 			Biblioteca biblio=new Biblioteca("Biblioteca Hedwig");
-			Console.WriteLine(biblio.nombre);
+			Console.WriteLine(biblio.Nombre);
 			
 			/*/CREACION DE OBJETOS PARA EJECUTAR
 				/*/
@@ -463,7 +463,7 @@ namespace Biblioteca
 
 					case 2:
 						Console.WriteLine("Todos los libros:");
-						ArrayList librosTotales = biblioteca.todosLibros();
+						List<Libro> librosTotales = biblioteca.todosLibros();
 						if (librosTotales.Count == 0)
 						{
 							Console.WriteLine("No hay libros cargados.");
@@ -479,7 +479,7 @@ namespace Biblioteca
 
 					case 3:
 						Console.WriteLine("Todos los socios:");
-						ArrayList sociosTotales = biblioteca.todosSocios();
+						List<Socio> sociosTotales = biblioteca.todosSocios();
 						if (sociosTotales.Count == 0)
 						{
 							Console.WriteLine("No hay socios cargados.");

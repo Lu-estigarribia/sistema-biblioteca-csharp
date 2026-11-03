@@ -7,7 +7,7 @@
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
 using System;
-using System.Collections;
+using System.Collections.Generic;
 
 namespace Biblioteca
 {
@@ -15,16 +15,14 @@ namespace Biblioteca
 	/// Description of Sociolector.
 	/// </summary>
 	public class Sociolector : Socio
-	{   //Atributos
-		private ArrayList listaLibroSala;
-		//Constructor
+	{ private List<Libro> listaLibroSala;
+		
 		public Sociolector(int dni, string nombre, string apellido, int telefono,string direccion, int cantLibrospres, Libro libroPres) : base(dni, nombre, apellido, telefono,direccion, cantLibrospres, libroPres)
 		{
-			this.listaLibroSala = new ArrayList();
+			this.listaLibroSala = new List<Libro>();
 		}
 		
-		//Metodos sociolector
-		public ArrayList librosSala()
+		public List<Libro> librosSala()
 		{
 			return listaLibroSala;
 		}
@@ -53,7 +51,7 @@ namespace Biblioteca
 			return (Libro)listaLibroSala[i];
 		}
 		
-		public ArrayList todosLibros()
+		public List<Libro> todosLibros()
 		{
 			return listaLibroSala;
 		}

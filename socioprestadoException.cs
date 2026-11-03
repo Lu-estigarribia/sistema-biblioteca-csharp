@@ -27,8 +27,4 @@ public class socioprestadoException : Exception
     { 
     }
 
-    protected socioprestadoException(SerializationInfo info, StreamingContext context) 
-        : base(info, context) 
-    { 
-    }
 }

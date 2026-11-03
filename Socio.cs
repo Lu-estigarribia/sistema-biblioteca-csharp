@@ -22,7 +22,7 @@ namespace Biblioteca
 		protected int telefono;
 		protected string direccion;
 		protected int cantLibrospres;
-		protected Libro libroPres;
+		private Libro libroPres;
 		
 		//Constructor Socio
 		public Socio(int dni, string nombre, string apellido, int telefono, string direccion, int cantLibrospres, Libro libroPres)

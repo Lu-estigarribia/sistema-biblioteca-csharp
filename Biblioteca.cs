@@ -7,7 +7,7 @@
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
 using System;
-using System.Collections;
+using System.Collections.Generic;
 namespace Biblioteca
 {
 	/// <summary>
@@ -15,28 +15,23 @@ namespace Biblioteca
 	/// </summary>
 	public class Biblioteca
 	{
-		//atributos
-		private ArrayList listaSocios;
-		private ArrayList listaLibros;
+		private List<Socio> listaSocios;
+		private List<Libro>listaLibros;
+		private string nombre;
 		
-		public string nombre;
-		
-		//Constructor de clase
 		public Biblioteca(string nombre)
 		{
-			listaSocios= new ArrayList();
-			listaLibros= new ArrayList();
+			listaSocios= new List<Socio>();
+			listaLibros= new List<Libro>();
 			Nombre=nombre;
 		}
-		//Propiedad Nombre
 		public string Nombre
 		{
 			set{nombre=value;}
 			get{return nombre;}
 		}
 		
-		//Metodos de libros
-		public void agregarLibro(Libro libro) //Recibe un objeto de tipo libro
+		public void agregarLibro(Libro libro) 
 		{
 			listaLibros.Add(libro);
 		}
@@ -56,12 +51,12 @@ namespace Biblioteca
 			return listaLibros.Contains(libro);
 		}
 		
-		public Libro verlibro(int i)   /*   retorna el libro iesimo*/
+		public Libro verlibro(int i)   
 		{
 			return (Libro)listaLibros[i];
 		}
 		
-		public ArrayList todosLibros()
+		public List<Libro> todosLibros()
 		{
 			return listaLibros;
 		}
@@ -84,7 +79,7 @@ namespace Biblioteca
 		
 		public bool existeSocio(Socio socio)
 		{
-			return listaLibros.Contains(socio);
+			return listaSocios.Contains(socio);
 		}
 		
 		public Socio verSocios(int k)
@@ -92,7 +87,7 @@ namespace Biblioteca
 			return (Socio)listaSocios[k];
 		}
 		
-		public ArrayList todosSocios()
+		public List<Socio> todosSocios()
 		{
 			return listaSocios;
 		}

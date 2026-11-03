@@ -15,15 +15,14 @@ namespace Biblioteca
 	/// </summary>
 	public class Libro
 	{
-		//Atributos
-		protected int codigo;
-		protected string titulo;
-		protected string autor;
-		protected string editorial;
-		protected DateTime fechaPrestamo;
-		protected DateTime fechaDevolucion;
-		protected string estadoLibro;
-		protected int dnisocioPres;
+		private int codigo;
+		private string titulo;
+		private string autor;
+		private string editorial;
+		private DateTime fechaPrestamo;
+		private DateTime fechaDevolucion;
+		private string estadoLibro;
+		private int dnisocioPres;
 		
 		//Constructor Libro
 		public Libro(int codigo, string titulo, string autor, string editorial, DateTime fechaPrestamo, DateTime fechaDevolucion,string estadoLibro, int dnisocioPres)
