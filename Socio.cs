@@ -21,19 +21,18 @@ namespace Biblioteca
 		protected string apellido;
 		protected int telefono;
 		protected string direccion;
-		protected int cantLibrospres;
-		private Libro libroPres;
+		protected int limiteLibros;
+	
 		
 		//Constructor Socio
-		public Socio(int dni, string nombre, string apellido, int telefono, string direccion, int cantLibrospres, Libro libroPres)
+		public Socio(int dni, string nombre, string apellido, int telefono, string direccion)
 		{
 			this.dni=dni;
 			this.nombre=nombre;
 			this.apellido=apellido;
 			this.telefono=telefono;
 			this.direccion=direccion;
-			this.cantLibrospres=cantLibrospres;
-			this.libroPres=libroPres;
+			this.limiteLibros=1;
 		}
 		
 		//Propiedades
@@ -66,15 +65,11 @@ namespace Biblioteca
 			get{return direccion;}
 		}
 
-		public int CantLibrospres
+        public int LimiteLibros
 		{
-			get{return cantLibrospres;}//se modifica mediante metodos
-		}
-		
-		public Libro LibroPres
-		{
-			get{return libroPres;}
-		}
+			get{return limiteLibros;}
+		}     
+
 		
 	}
 }

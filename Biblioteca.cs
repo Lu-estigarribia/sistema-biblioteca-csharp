@@ -17,12 +17,14 @@ namespace Biblioteca
 	{
 		private List<Socio> listaSocios;
 		private List<Libro>listaLibros;
+		private List<Prestamo> listaPrestamos;
 		private string nombre;
 		
 		public Biblioteca(string nombre)
 		{
 			listaSocios= new List<Socio>();
 			listaLibros= new List<Libro>();
+			listaPrestamos=new List<Prestamo>();
 			Nombre=nombre;
 		}
 		public string Nombre
@@ -91,6 +93,21 @@ namespace Biblioteca
 		{
 			return listaSocios;
 		}
+
+		public void agregarPrestamo(Prestamo prestamo)
+        {
+            listaPrestamos.Add(prestamo);
+        }
+
+        public int cantidadPrestamos()
+        {
+           return listaPrestamos.Count;
+		}
+
+        public List<Prestamo> todosPrestamos()
+        {
+            return listaPrestamos;
+        }       
 	}
 }
 
