@@ -60,6 +60,30 @@ namespace Biblioteca
 			get{return estadoLibro;}
 		}
 		
+		public void MarcarPrestado()
+		{
+			if(estadoLibro==EstadoLibro.Disponible)
+			{
+				estadoLibro=EstadoLibro.Prestado;
+			}
+			else
+			{
+				throw new InvalidOperationException("El libro se encuentra prestado.");
+			}
 		
+	    }
+
+		public void MarcarDisponible()
+		{
+			if(estadoLibro==EstadoLibro.Prestado)
+			{
+				estadoLibro=EstadoLibro.Disponible;
+			}
+			else
+			{
+				throw new InvalidOperationException("El libro se encuentra disponible.");
+			}
+
+		}
 	}
 }

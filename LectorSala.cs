@@ -30,9 +30,13 @@ namespace Biblioteca
 
 		public void agregarLibro(Libro libro) 
 		{
+			if(libro == null)
+            {
+                throw new ArgumentNullException(nameof(libro));
+            }
 			if(listaLibroSala.Contains(libro))
 			{
-				Console.Write("Ya tiee ese libro prestado");
+				throw new InvalidOperationException("Ya tiene ese libro prestado.");
 			}
 			else
 			{
@@ -42,7 +46,7 @@ namespace Biblioteca
 				}
 				else
 				{
-					Console.Write("no puede prestarse");
+					throw new InvalidOperationException("No se puede prestar el libro.");
 				}
 			}
 		}
@@ -55,7 +59,7 @@ namespace Biblioteca
 			}
 			else
 			{
-				Console.Write("El socio no tiene ese libro");
+				throw new InvalidOperationException("El lector no tiene ese libro.");
 			}
 			
 		}

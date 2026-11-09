@@ -4,15 +4,21 @@ using System.Data.Common;
 
 namespace Biblioteca
 {
+
+    public enum TipoPrestamo
+    {
+        Domicilio,Sala
+    }
     public class Prestamo
     {
         private Socio socio;
         private Libro libro;
         private DateTime fechaPrestamo;
-		private DateTime fechaDevolucionEstimada;
+		private DateTime? fechaDevolucionEstimada;
         private DateTime? fechaDevolucionReal;
+        private TipoPrestamo tipoPrestamo;
 		
-        public Prestamo(Socio socio, Libro libro)
+        public Prestamo(Socio socio, Libro libro, TipoPrestamo tipo)
         {
             if(socio==null)
             {
@@ -26,8 +32,14 @@ namespace Biblioteca
             this.socio=socio;
             this.libro=libro;
             fechaPrestamo=DateTime.Now;
-            fechaDevolucionEstimada=fechaPrestamo.AddDays(15);
+            fechaDevolucionEstimada=null;
             fechaDevolucionReal=null;
+            this.tipoPrestamo=tipo;
+            if(tipo==TipoPrestamo.Domicilio)
+            {
+                fechaDevolucionEstimada=fechaPrestamo.AddDays(15);
+            }
+           
         }
 
         public Socio Socio
@@ -45,7 +57,7 @@ namespace Biblioteca
             get{return fechaPrestamo;}
         }
 
-        public DateTime FechaDevolucionEstimada
+        public DateTime? FechaDevolucionEstimada
         {
             get{return fechaDevolucionEstimada;}
         }
@@ -53,6 +65,11 @@ namespace Biblioteca
         public DateTime? FechaDevolucionReal
         {
             get{return fechaDevolucionReal;}
+        }
+
+        public TipoPrestamo Tipo
+        {
+            get { return tipoPrestamo; }
         }
     
         public void Devolver()
