@@ -8,6 +8,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 namespace Biblioteca
 {
 	/// <summary>
@@ -33,13 +34,33 @@ namespace Biblioteca
 			get{return nombre;}
 		}
 		
-		public void agregarLibro(Libro libro) 
+		public void agregarLibro(Libro libro)
 		{
+			if (libro == null)
+			{
+				throw new ArgumentNullException(nameof(libro));
+			}
+			
+			foreach (Libro lib in listaLibros)
+			{
+				if (lib.Codigo == libro.Codigo)
+				{
+					throw new InvalidOperationException("No se puede repetir el código del libro.");
+				}
+			}
 			listaLibros.Add(libro);
 		}
 		
 		public void eliminarLibro(Libro libro)
 		{
+			if(libro==null)
+			{
+				throw new ArgumentNullException(nameof(libro));
+			}
+			if(libro.EstadoLibro==EstadoLibro.Prestado)
+			{
+				throw new InvalidOperationException("No se pueden eliminar libros prestados.");
+			}
 			listaLibros.Remove(libro);
 		}
 		
@@ -67,11 +88,26 @@ namespace Biblioteca
 		//Metodos socios
 		public void agregarsocio(Socio socio)
 		{
+			if(socio==null)
+			{
+				throw new ArgumentNullException(nameof(socio));
+			}
+			foreach(Socio soc in listaSocios)
+			{
+				if(soc.Dni==socio.Dni)
+				{
+					throw new InvalidOperationException("No se puede repetir el DNI del socio.");
+				}
+			}
 			listaSocios.Add(socio);
 		}
 		
 		public void bajasocio(Socio socio)
 		{
+			if (contadorPrestamosActivos(socio) > 0)
+            {
+                throw new InvalidOperationException("No se puede eliminar el socio porque tiene préstamos activos.");
+            }
 			listaSocios.Remove(socio);
 		}
 		
@@ -95,11 +131,6 @@ namespace Biblioteca
 		{
 			get{return listaSocios.AsReadOnly();}
 		}
-
-		public void agregarPrestamo(Prestamo prestamo)
-        {
-            listaPrestamos.Add(prestamo);
-        }
 
         public int cantidadPrestamos()
         {

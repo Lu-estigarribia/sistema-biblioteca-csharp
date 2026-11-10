@@ -20,17 +20,17 @@ namespace Biblioteca
 			
 			/*/CREACION DE OBJETOS PARA EJECUTAR
 				/*/
-				Libro l1=new Libro(1,"bridgerton", "julia quinn", "jacobo", new DateTime(2008,5,3),new DateTime(2008,5,18), "prestado", 0);
+			Libro l1=new Libro(1,"bridgerton", "julia quinn2", "jacobo");
 			biblio.agregarLibro(l1);
-			Libro l2=new Libro(2,"el principito", "erika", "unaj", new DateTime(2018,12,5), new DateTime(2018,12,15), "disponible", 45678903);
+			Libro l2=new Libro(2,"el principito", "erika", "unaj");
 			biblio.agregarLibro(l2);
-			Socio s1=new Socio(45678903,"mauro", "escobar",112345654,"calchaqui",0,null);
+			Socio s1=new Socio(45678903,"mauro", "escobar",112345654,"calchaqui");
 			biblio.agregarsocio(s1);
-			Socio s2=new Socio(32456900,"laura", "gallo", 1189076579,"belgrano",0,null);
+			Socio s2=new Socio(32456900,"laura", "gallo", 1189076579,"belgrano");
 			biblio.agregarsocio(s2);
 			
 			
-			int opcion;
+			int opcion=-1;
 			
 			do
 			{
@@ -43,10 +43,11 @@ namespace Biblioteca
 				Console.WriteLine("6. Devolver libro");
 				Console.WriteLine("7. Listados");
 				Console.WriteLine("0. Salir");
-				opcion = int.Parse(Console.ReadLine());
+				
 				
 				try
 				{
+					opcion = int.Parse(Console.ReadLine());
 					switch(opcion)
 					{
 						case 1:
@@ -93,7 +94,7 @@ namespace Biblioteca
 		static int generadorCodigo(Biblioteca bibli)
 		{
 			int codigo=0;
-			foreach(Libro libri in bibli.todosLibros()){
+			foreach(Libro libri in bibli.ListaLibros){
 				if(libri.Codigo>codigo){
 					codigo=libri.Codigo;
 					
@@ -106,89 +107,41 @@ namespace Biblioteca
 		//1.5)
 		static void agregarnuevoLibro(Biblioteca biblioteca)
 		{
-			int cod=generadorCodigo(biblioteca );
+			int codigo=generadorCodigo(biblioteca );
 			Console.Write("Ingrese el titulo del nuevo libro:");
 			string titulo=Console.ReadLine();
 			Console.Write("Ingrese el autor del nuevo libro:");
 			string autor=Console.ReadLine();
 			Console.Write("Ingrese la editorial del nuevo libro:");
-			string edit= Console.ReadLine();
-			//fecha prestamo
-			DateTime fp= DateTime.MinValue; //Metodo que da una fcha 0/00/00
-			//fecha devolucion
-			DateTime fv= DateTime.MinValue;
-			string estado=" ";
-			while (estado ==" ")
-			{
-				Console.WriteLine("Estado del libro  ");
-				Console.WriteLine("1.Disponible");
-				Console.WriteLine("2.Prestado");
-				Console.Write("Seleccione una opción (1 o 2): ");
-				
-				int opcionEstado = int.Parse(Console.ReadLine());
-				switch(opcionEstado)
-				{
-					case 1:
-						estado = "disponible";
-						Libro libronue= new Libro(cod,titulo,autor,edit,fp,fv,estado,0);
-						//Llamo al metdo de la clase para agregar libro
-						biblioteca.agregarLibro(libronue);
-						Console.WriteLine("El libro fue agregado con exito");
-						break;
-					case 2:
-						estado = "prestado";
-						Console.Write("Ingrese el DNI del socioal que se presto: ");
-						int dnisocio= int.Parse(Console.ReadLine());
-						Libro libronuevo= new Libro(cod,titulo,autor,edit,fp,fv,estado,dnisocio);
-						//Llamo al metdo de la clase para agregar libro
-						biblioteca.agregarLibro(libronuevo);
-						Console.WriteLine("El libro fue agregado con exito");
-						break;
-					default:
-						Console.WriteLine("Opción inválida. Intente de nuevo.");
-						break;
-				}
-				
-			}
+			string editorial= Console.ReadLine();
 			
+            Libro libroNuevo= new Libro(codigo,titulo,autor,editorial);
+			biblioteca.agregarLibro(libroNuevo);
+			Console.WriteLine("El libro fue agregado con exito");
 			
 		}
 
 		//2)
 		public static void eliminarunLibro(Biblioteca biblioteca)
 		{
-			foreach(Libro libri in biblioteca.todosLibros())
+			foreach(Libro libri in biblioteca.ListaLibros)
 			{
 				Console.WriteLine("Libros a eliminar :"+ " "+"codigo: "+ libri.Codigo+" " + "nombre: "+libri.Titulo);
 			}
 			Console.Write("Ingrese el código del libro a eliminar:");
 			int codigoLibro = int.Parse(Console.ReadLine());
-			bool libroEncontrado = false;
+			
+			Libro libroEncontrado=biblioteca.buscarLibro(codigoLibro);
 
-			foreach (Libro libro in biblioteca.todosLibros())
+			if(libroEncontrado.EstadoLibro==EstadoLibro.Prestado)
 			{
-				if (libro.Codigo == codigoLibro)
-				{
-					biblioteca.eliminarLibro(libro);
-					libroEncontrado = true;
-					if(libro.EstadoLibro=="prestado"){
-						Console.WriteLine("No se puede eliminar el libro porque esta prestado.");
-					}
-					else
-					{
-						biblioteca.eliminarLibro(libro);
-						Console.WriteLine("Libro eliminado con exito.");
-					}
-					break;
-				}
+				Console.WriteLine("No se puede eliminar el libro porque esta prestado.");
 			}
-			
-			if (!libroEncontrado)
+			else
 			{
-				Console.WriteLine("Error: No se encontró el libro con ese código.");
-				
+				biblioteca.eliminarLibro(libroEncontrado);
+				Console.WriteLine("Libro eliminado con exito.");
 			}
-			
 		}
 		
 		
@@ -205,20 +158,18 @@ namespace Biblioteca
 			int telefono = int.Parse(Console.ReadLine());
 			Console.Write("Ingrese direccion:");
 			string direccion = Console.ReadLine();
-			Console.Write("Ingrese la cantidad de libros prestados:");
-			int librospres=int.Parse(Console.ReadLine());
-			Console.Write("¿Es socio lector? (si/no):");
-			string esLector = Console.ReadLine();
+			Console.Write("¿Es lector de sala? (si/no): ");
+			string esLectorDeSala=Console.ReadLine().ToLower();
 			
-			if(esLector.ToLower() == "si")
+			if(esLectorDeSala=="si")
 			{
-				Sociolector sociolec = new Sociolector(dni, nombre, apellido, telefono, direccion, 0, null);
-				biblioteca.agregarsocio(sociolec);
-				Console.WriteLine("Sociolector agregado con exito.");
+				LectorSala lectorSala = new LectorSala(dni, nombre, apellido, telefono, direccion);
+				biblioteca.agregarsocio(lectorSala);
+				Console.WriteLine("Lector de sala agregado con exito.");
 			}
-			else if(esLector.ToLower() == "no")
+			else if(esLectorDeSala== "no")
 			{
-				Socio socio = new Socio(dni, nombre, apellido, telefono, direccion, 0, null);
+				Socio socio = new Socio(dni, nombre, apellido, telefono, direccion);
 				biblioteca.agregarsocio(socio);
 				Console.WriteLine("Socio agregado con exito.");
 			}
@@ -231,127 +182,48 @@ namespace Biblioteca
 		//4)
 		public static void darBajasocio(Biblioteca biblioteca)
 		{
-			foreach(Socio soci in biblioteca.todosSocios())
+			foreach(Socio soci in biblioteca.ListaSocios)
 			{
 				Console.WriteLine("Los D.N.I de los socios:" + " " +soci.Dni);
 			}
 			Console.WriteLine("Ingrese el D.N.I del socio a dar de baja");
 			int documento = int.Parse(Console.ReadLine());
-			Socio socito =new Socio(documento,"","",0,"",0,null);
 			
-			biblioteca.existeSocio(socito);
-			foreach (Socio socio in biblioteca.todosSocios())
-			{
-				if (socio.Dni == documento)
-				{
-					biblioteca.bajasocio(socio);
-					Console.WriteLine("Socio eliminado con exito.");
-					break;
-				}
-			}
+			Socio socioEncontrado=biblioteca.buscarSocio(documento);
+			
+			biblioteca.bajasocio(socioEncontrado);
+			Console.Write("Socio eliminado con exito.");
 		}
 		
 		//5)
 		static void prestarUnlibro(Biblioteca biblioteca)
-		{try
+		{
+			Console.WriteLine("Ingrese el D.N.I del socio solicitante");
+			int documento = int.Parse(Console.ReadLine());
+			biblioteca.buscarSocio(documento);
+			Console.WriteLine("Ingrese el codigo del libro");
+			int codigoLibro = int.Parse(Console.ReadLine());
+			biblioteca.buscarLibro(codigoLibro);
+
+			Console.WriteLine("Seleccione el tipo de prestamo:");
+			Console.WriteLine("1. Prestamo a domicilio.");
+			Console.WriteLine("2. Prestamo en sala.");
+			int opcion=int.Parse(Console.ReadLine());
+
+			TipoPrestamo tipo;
+			switch(opcion)
 			{
-				
-				
-				Console.WriteLine("Ingrese el D.N.I del socio solicitante");
-				int docu = int.Parse(Console.ReadLine());
-				
-				Console.WriteLine("Ingrese el codigo del libro");
-				int codigoLibro = int.Parse(Console.ReadLine());
-				
-				//ENCONTRAR AL SOCIO
-				bool socioExiste = false;
-				Socio socioEncontrado = null;
-
-				foreach (Socio socio in biblioteca.todosSocios())
-				{
-					if (socio.Dni == docu)
-					{
-						socioExiste = true;
-						socioEncontrado = socio;
-						break;
-					}
-				}
-
-				if (!socioExiste)
-				{
-					Console.WriteLine("No se encontró el socio. No se puede prestar el libro.");
-					return;
-				}
-				
-				//ENCNTRAR EL LIBRO
-				Libro libroEncontrado = null;
-				foreach (Libro librito in biblioteca.todosLibros())
-				{
-					if (librito.Codigo == codigoLibro)
-					{
-						libroEncontrado = librito;
-					}
-				}
-				
-				if (libroEncontrado == null)
-				{
-					Console.WriteLine("No se encontró el libro.");
-					return;
-				}
-				
-				if (libroEncontrado.EstadoLibro.ToLower() == "prestado")
-				{
-					Console.WriteLine("El libro no está disponible para prestar.");
-					return;
-				}
-
-				
-				Console.WriteLine("Es socio lector? (si/no)");
-				string socioLector = Console.ReadLine().ToLower();
-
-				if (socioLector == "no")
-				{
-					if (libroEncontrado.EstadoLibro.ToLower() == "disponible")
-					{
-						if (socioEncontrado.CantLibrospres == 0)
-						{
-							socioEncontrado.CantLibrospres++;
-							libroEncontrado.EstadoLibro = "prestado";
-							libroEncontrado.FechaPrestamo=DateTime.Now;
-							libroEncontrado.FechaDevolucion=DateTime.Now.AddDays(15);
-							socioEncontrado.LibroPres=libroEncontrado;
-							Console.WriteLine("Libro prestado con éxito.");
-						}
-						else
-						{
-							throw new socioprestadoException();
-						}
-						
-					}
-				}
-				if (socioLector == "si")
-				{
-					if (libroEncontrado.EstadoLibro.ToLower() == "disponible")
-					{
-						if (socioEncontrado.CantLibrospres == 0)
-						{
-							socioEncontrado.CantLibrospres++;
-							libroEncontrado.EstadoLibro= "prestado";
-
-							if (socioEncontrado is Sociolector)
-							{
-								Sociolector lector = (Sociolector)socioEncontrado;
-								lector.librosSala().Add(libroEncontrado);
-							}
-
-							Console.WriteLine("Libro prestado con éxito al socio lector.");
-						}
-					}
-				}
-			}catch(socioprestadoException ex)
-			{
-				Console.WriteLine(ex.Message);
+				case 1:
+					tipo=TipoPrestamo.Domicilio;
+					break;
+				case 2:
+					tipo=TipoPrestamo.Sala;
+					break;
+				default:
+					throw new ArgumentException("Opcion invalida.");
 			}
+			biblioteca.prestarLibro(documento,codigoLibro,tipo);
+			Console.WriteLine("Libro Prestado con exito.");
 		}
 
 		//6)
@@ -359,74 +231,11 @@ namespace Biblioteca
 		{
 			Console.WriteLine("Ingrese el D.N.I del socio solicitante");
 			int documento = int.Parse(Console.ReadLine());
-			
 			Console.WriteLine("Ingrese el codigo del libro");
-			int codLibro = int.Parse(Console.ReadLine());
-			
-			Socio socioEncontrado = null;
-			foreach (Socio socio in biblioteca.todosSocios())
-			{
-				if (socio.Dni == documento)
-				{
-					socioEncontrado = socio;
-				}
-			}
-			if (socioEncontrado == null)
-			{
-				Console.WriteLine("No se encontró el socio.");
-			}
-			
-			
-			Libro libroEncontrado = null;
-			foreach (Libro librito in biblioteca.todosLibros())
-			{
-				if (librito.Codigo == codLibro)
-				{
-					libroEncontrado = librito;
-				}
-			}
-			
-			if (libroEncontrado == null)
-			{
-				Console.WriteLine("No se encontró el libro.");
-			}
-			
-			Console.WriteLine("Es socio lector? (si/no)");
-			string socioLector = Console.ReadLine().ToLower();
+			int codigoLibro = int.Parse(Console.ReadLine());
 
-			if (socioLector == "no")
-			{
-				if (libroEncontrado.EstadoLibro.ToLower() == "prestado")
-				{
-					if (socioEncontrado.CantLibrospres == 1)
-					{
-						socioEncontrado.CantLibrospres--;
-						libroEncontrado.EstadoLibro = "disponible";
-						libroEncontrado.FechaPrestamo=DateTime.MinValue;
-						libroEncontrado.FechaDevolucion=DateTime.Now;
-						Console.WriteLine("Libro devuelto con éxito.");
-					}
-				}
-			}
-			if (socioLector == "si")
-			{
-				if (libroEncontrado.EstadoLibro.ToLower() == "prestado")
-				{
-					if (socioEncontrado.CantLibrospres <= 15)
-					{
-						socioEncontrado.CantLibrospres--;
-						libroEncontrado.EstadoLibro = "disponible";
-
-						if (socioEncontrado is Sociolector)
-						{
-							Sociolector lector = (Sociolector)socioEncontrado;
-							lector.librosSala().Add(libroEncontrado);
-						}
-
-						Console.WriteLine("Libro devuelto con éxito a la biblioteca.");
-					}
-				}
-			}
+			biblioteca.DevolverLibro(documento,codigoLibro);
+			Console.WriteLine("Libro devuelto con exito.");
 		}
 		
 		//7)
@@ -438,21 +247,24 @@ namespace Biblioteca
 				Console.WriteLine("1.Lista con los libros prestados.");
 				Console.WriteLine("2.Lista de libros en la biblioteca.");
 				Console.WriteLine("3.Lista de socios.");
-				Console.WriteLine("4. Volver al menu principal.");
+				Console.WriteLine("4.Historial de prestamos.");
+				Console.WriteLine("5. Volver al menu principal.");
 				Console.WriteLine("Ingrese una opcion");
 				opcion = int.Parse(Console.ReadLine());
 
 				switch (opcion)
 				{
 					case 1:
-						Console.WriteLine("Libros prestados:");
-						bool haypres=false;
-						foreach (Libro libros in biblioteca.todosLibros())
-						{
-							if (libros.EstadoLibro.ToLower()=="prestado")
-							{
-								Console.WriteLine("Código: " + libros.Codigo + ", Título: " + libros.Titulo + ", Autor: " + libros.Autor + ", Estado: " + libros.EstadoLibro);
-								haypres=true;
+						bool haypres = false;
+
+                        foreach (Libro libro in biblioteca.ListaLibros)
+                        {
+                           if (libro.EstadoLibro == EstadoLibro.Prestado)
+                           {
+                                Console.WriteLine("Código: " + libro.Codigo +
+                                                ", Título: " + libro.Titulo +
+                                                ", Autor: " + libro.Autor);
+												haypres = true;
 							}
 						}
 						if (!haypres)
@@ -460,17 +272,15 @@ namespace Biblioteca
 							Console.WriteLine("No hay libros prestados.");
 						}
 						break;
-
 					case 2:
-						Console.WriteLine("Todos los libros:");
-						List<Libro> librosTotales = biblioteca.todosLibros();
-						if (librosTotales.Count == 0)
+						Console.WriteLine("Todos los libros:");;
+						if (biblioteca.ListaLibros.Count == 0)
 						{
 							Console.WriteLine("No hay libros cargados.");
 						}
 						else
 						{
-							foreach (Libro libro in biblioteca.todosLibros())
+							foreach (Libro libro in biblioteca.ListaLibros)
 							{
 								Console.WriteLine("Código: " + libro.Codigo + ", Título: " + libro.Titulo + ", Autor: " + libro.Autor + ", Estado: " + libro.EstadoLibro);
 							}
@@ -479,21 +289,32 @@ namespace Biblioteca
 
 					case 3:
 						Console.WriteLine("Todos los socios:");
-						List<Socio> sociosTotales = biblioteca.todosSocios();
-						if (sociosTotales.Count == 0)
+						if (biblioteca.ListaSocios.Count == 0)
 						{
 							Console.WriteLine("No hay socios cargados.");
 						}
 						else
 						{
-							foreach (Socio socio in biblioteca.todosSocios())
+							foreach (Socio socio in biblioteca.ListaSocios)
 							{
-								Console.WriteLine("DNI: " + socio.Dni + ", Nombre: " + socio.Nombre + " " + socio.Apellido + ", Teléfono: " + socio.Telefono + ", Libros Prestados: " + socio.CantLibrospres);
+								Console.WriteLine("DNI: " + socio.Dni + ", Nombre: " + socio.Nombre + " " + socio.Apellido + ", Teléfono: " + socio.Telefono + ", Libros Prestados: " + biblioteca.contadorPrestamosActivos(socio));
 							}
 						}
 						break;
+					case 4:
+					Console.WriteLine("Historial de préstamos:");
+					foreach (Prestamo pres in biblioteca.ListaPrestamos)
+					{
+						Console.WriteLine(
+							"Socio: " + pres.Socio.Dni +
+							" - Libro: " + pres.Libro.Titulo +
+							" - Fecha préstamo: " + pres.FechaPrestamo +
+							" - Fecha devolución: " +
+							(pres.FechaDevolucionReal?.ToString() ?? "Pendiente"));
+					}
+                    break;
 				}
-			} while (opcion!= 4);
+			} while (opcion!= 5);
 		}
 	}
 }
