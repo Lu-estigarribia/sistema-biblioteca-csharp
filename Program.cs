@@ -10,16 +10,6 @@ namespace Biblioteca
 			Biblioteca biblio=new Biblioteca("Biblioteca Hedwig");
 			Console.WriteLine(biblio.Nombre);
 			
-			//Datos iniciales de prueba
-			Libro l1=new Libro(1,"bridgerton", "julia quinn2", "jacobo");
-			biblio.AgregarLibro(l1);
-			Libro l2=new Libro(2,"el principito", "erika", "unaj");
-			biblio.AgregarLibro(l2);
-			Socio s1=new Socio(45678903,"mauro", "escobar",112345654,"calchaqui");
-			biblio.AgregarSocio(s1);
-			Socio s2=new Socio(32456900,"laura", "gallo", 1189076579,"belgrano");
-			biblio.AgregarSocio(s2);
-			
 			
 			int opcion=-1;
 			
