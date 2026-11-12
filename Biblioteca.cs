@@ -1,12 +1,4 @@
-﻿/*
- * Creado por SharpDevelop.
- * Usuario: estudiante
- * Fecha: 20/5/2025
- * Hora: 19:26
- * 
- * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 namespace Biblioteca
@@ -34,7 +26,7 @@ namespace Biblioteca
 			get{return nombre;}
 		}
 		
-		public void agregarLibro(Libro libro)
+		public void AgregarLibro(Libro libro)
 		{
 			if (libro == null)
 			{
@@ -51,7 +43,7 @@ namespace Biblioteca
 			listaLibros.Add(libro);
 		}
 		
-		public void eliminarLibro(Libro libro)
+		public void EliminarLibro(Libro libro)
 		{
 			if(libro==null)
 			{
@@ -64,20 +56,6 @@ namespace Biblioteca
 			listaLibros.Remove(libro);
 		}
 		
-		public int cantidadLibros()
-		{
-			return  listaLibros.Count;
-		}
-		
-		public bool existeLibro(Libro libro)
-		{
-			return listaLibros.Contains(libro);
-		}
-		
-		public Libro verlibro(int i)   
-		{
-			return listaLibros[i];
-		}
 		
 		//propiedad que permite solo leer a lista
 		public IReadOnlyList<Libro> ListaLibros
@@ -86,7 +64,7 @@ namespace Biblioteca
 		}
 
 		//Metodos socios
-		public void agregarsocio(Socio socio)
+		public void AgregarSocio(Socio socio)
 		{
 			if(socio==null)
 			{
@@ -102,28 +80,13 @@ namespace Biblioteca
 			listaSocios.Add(socio);
 		}
 		
-		public void bajasocio(Socio socio)
+		public void BajaSocio(Socio socio)
 		{
-			if (contadorPrestamosActivos(socio) > 0)
+			if (ContadorPrestamosActivos(socio) > 0)
             {
                 throw new InvalidOperationException("No se puede eliminar el socio porque tiene préstamos activos.");
             }
 			listaSocios.Remove(socio);
-		}
-		
-		public int cantidadSocios()
-		{
-			return listaSocios.Count;
-		}
-		
-		public bool existeSocio(Socio socio)
-		{
-			return listaSocios.Contains(socio);
-		}
-		
-		public Socio verSocios(int k)
-		{
-			return listaSocios[k];
 		}
 		
 		//propiedad que permite solo leer a lista
@@ -132,7 +95,7 @@ namespace Biblioteca
 			get{return listaSocios.AsReadOnly();}
 		}
 
-        public int cantidadPrestamos()
+        public int CantidadPrestamos()
         {
            return listaPrestamos.Count;
 		}
@@ -142,7 +105,7 @@ namespace Biblioteca
             get{return listaPrestamos.AsReadOnly();}
         }       
 
-		public int contadorPrestamosActivos(Socio socio)
+		public int ContadorPrestamosActivos(Socio socio)
 		{
 			int contador=0;
 
@@ -160,7 +123,7 @@ namespace Biblioteca
 			return contador;
 		}
 
-		public Socio buscarSocio(int dni)
+		public Socio BuscarSocio(int dni)
 		{
 			Socio socioEncontrado=null;
 			foreach(Socio soc in listaSocios)
@@ -179,7 +142,7 @@ namespace Biblioteca
 			return socioEncontrado;
 		}
 
-		public Libro buscarLibro(int codigolibro)
+		public Libro BuscarLibro(int codigolibro)
 		{
 			Libro libroEncontrado=null;
 
@@ -199,13 +162,13 @@ namespace Biblioteca
 			return libroEncontrado;
 		}
 
-		public void prestarLibro(int dni, int codigolibro, TipoPrestamo tipo)
+		public void PrestarLibro(int dni, int codigolibro, TipoPrestamo tipo)
 		{
-			Socio socioEncontrado=buscarSocio(dni);
-			Libro libroEncontrado=buscarLibro(codigolibro);
+			Socio socioEncontrado=BuscarSocio(dni);
+			Libro libroEncontrado=BuscarLibro(codigolibro);
 			
 			//validaciones reueridas para prestar el libro
-			if(contadorPrestamosActivos(socioEncontrado)>=socioEncontrado.LimiteLibros)
+			if(ContadorPrestamosActivos(socioEncontrado)>=socioEncontrado.LimiteLibros)
 			{
 				throw new InvalidOperationException("Limite de prestamos alcanzado.");
 			}
@@ -233,7 +196,7 @@ namespace Biblioteca
 			Prestamo pres=new Prestamo(socioEncontrado,libroEncontrado,tipo);
 			if (socioEncontrado is LectorSala lector)
             {
-               lector.agregarLibro(libroEncontrado);
+               lector.AgregarLibro(libroEncontrado);
             }
 			libroEncontrado.MarcarPrestado();
 			listaPrestamos.Add(pres);	
@@ -241,8 +204,8 @@ namespace Biblioteca
 
 		public void DevolverLibro(int dni, int codigolibro)
 		{
-			Socio socioEncontrado=buscarSocio(dni);
-			Libro libroEncontrado=buscarLibro(codigolibro);
+			Socio socioEncontrado=BuscarSocio(dni);
+			Libro libroEncontrado=BuscarLibro(codigolibro);
 			Prestamo prestamoEncontrado=null;
 
 			foreach(Prestamo pres in listaPrestamos)
@@ -265,7 +228,7 @@ namespace Biblioteca
 
 			if (socioEncontrado is LectorSala lector)
             {
-                lector.eliminarLibro(libroEncontrado);
+                lector.EliminarLibro(libroEncontrado);
             }
 
 			prestamoEncontrado.Devolver();

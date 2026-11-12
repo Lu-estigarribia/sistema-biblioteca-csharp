@@ -1,12 +1,4 @@
-﻿ /*
- * Creado por SharpDevelop.
- * Usuario: estudiante
- * Fecha: 20/5/2025
- * Hora: 19:46
- * 
- * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
- */
-using System;
+﻿using System;
 
 namespace Biblioteca
 {
@@ -27,11 +19,15 @@ namespace Biblioteca
 		//Constructor Socio
 		public Socio(int dni, string nombre, string apellido, int telefono, string direccion)
 		{
+			if(dni<=0)
+			{
+				throw new ArgumentOutOfRangeException(nameof(dni),"El dni no puede ser 0");
+			}
 			this.dni=dni;
-			this.nombre=nombre;
-			this.apellido=apellido;
-			this.telefono=telefono;
-			this.direccion=direccion;
+			Nombre = nombre;
+			Apellido = apellido;
+			Telefono = telefono;
+			Direccion = direccion;
 			this.limiteLibros=1;
 		}
 		
@@ -43,25 +39,45 @@ namespace Biblioteca
 
 		public int Telefono
 		{
-			set{telefono=value;}
+			set{if(value<=0)
+				{
+					throw new ArgumentOutOfRangeException(nameof(value),"El telefono no debe ser 0.");
+				}
+				telefono=value;
+			}
 			get{return telefono;}
 		}
 
 		public string Nombre
 		{
-			set{nombre=value;}
+			set{if(string.IsNullOrWhiteSpace(value))
+				{
+					throw new ArgumentException("El nombre no puede estar vacío.");
+				}
+				nombre=value;
+			}
 			get{return nombre;}
 		}
 
 		public string Apellido
 		{
-			set{apellido=value;}
+			set{if(string.IsNullOrWhiteSpace(value))
+				{
+					throw new ArgumentException("El apellido no puede estar vacio.");
+				}
+				apellido=value;
+			}
 			get{return apellido;}
 		}
 
 		public string Direccion
 		{
-			set{direccion=value;}
+			set{if(string.IsNullOrWhiteSpace(value))
+				{
+					throw new ArgumentException("La direccion no debe estarvacia");
+				}
+				direccion=value;
+			}
 			get{return direccion;}
 		}
 

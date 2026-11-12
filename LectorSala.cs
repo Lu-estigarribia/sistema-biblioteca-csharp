@@ -1,19 +1,8 @@
-﻿/*
- * Creado por SharpDevelop.
- * Usuario: estudiante
- * Fecha: 20/5/2025
- * Hora: 20:13
- * 
- * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Biblioteca
 {
-	/// <summary>
-	/// Description of Sociolector.
-	/// </summary>
 	public class LectorSala : Socio
 	{ private List<Libro> listaLibroSala;
 		
@@ -28,7 +17,7 @@ namespace Biblioteca
             get { return listaLibroSala.AsReadOnly(); }
         }
 
-		public void agregarLibro(Libro libro) 
+		public void AgregarLibro(Libro libro) 
 		{
 			if(libro == null)
             {
@@ -51,8 +40,12 @@ namespace Biblioteca
 			}
 		}
 		
-		public void eliminarLibro(Libro libro)
+		public void EliminarLibro(Libro libro)
 		{
+			if(libro == null)
+            {
+                throw new ArgumentNullException(nameof(libro));
+            }
 			if(listaLibroSala.Contains(libro))
 			{
 				listaLibroSala.Remove(libro);
@@ -62,21 +55,6 @@ namespace Biblioteca
 				throw new InvalidOperationException("El lector no tiene ese libro.");
 			}
 			
-		}
-		
-		public int cantidadLibros()
-		{
-			return  listaLibroSala.Count;
-		}
-		
-		public bool existeLibro(Libro libro)
-		{
-			return listaLibroSala.Contains(libro);
-		}
-		
-		public Libro verlibro(int i)   
-		{
-			return (Libro)listaLibroSala[i];
 		}
 
 	}

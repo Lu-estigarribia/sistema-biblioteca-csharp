@@ -1,12 +1,4 @@
-﻿/*
- * Creado por SharpDevelop.
- * Usuario: estudiante
- * Fecha: 20/5/2025
- * Hora: 19:30
- * 
- * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
- */
-using System;
+﻿using System;
 using System.Runtime.CompilerServices;
 
 namespace Biblioteca
@@ -24,11 +16,15 @@ namespace Biblioteca
 		private EstadoLibro estadoLibro;
 		
 		public Libro(int codigo, string titulo, string autor, string editorial)
-		{
+		{   
+			if(codigo<=0)
+			{
+				throw new ArgumentOutOfRangeException(nameof(codigo),"El código debe ser mayor que cero.");
+			}
 			this.codigo=codigo;
-			this.titulo=titulo;
-			this.autor=autor;
-			this.editorial=editorial;
+			Titulo=titulo;
+			Autor=autor;
+			Editorial=editorial;
 			estadoLibro=EstadoLibro.Disponible;
 		}
 	
@@ -39,19 +35,42 @@ namespace Biblioteca
 
 		public string Titulo
 		{
-			set{titulo=value;}
-			get{return titulo;}
-		}
+			get
+			{
+				return titulo;
+			}
+			set
+			{
+				if(string.IsNullOrWhiteSpace(value))
+				{
+					throw new ArgumentException("El título no puede estar vacío.");
+				}
+				titulo=value;
+		    }
+        }
 
 		public string Autor
 		{
-			set{autor=value;}
 			get{return autor;}
+			set{
+				if(string.IsNullOrWhiteSpace(value))
+			    {
+				   throw new ArgumentException("El autor no debe ser nulo ni vacio");
+			    }
+				autor=value;
+			   }
+			
 		}
 
 		public string Editorial
 		{
-			set{editorial=value;}
+			set{
+				if(string.IsNullOrWhiteSpace(value))
+			    {
+				throw new ArgumentException("La editorial no debe ser nulo ni vacio");
+			    }
+				editorial=value;
+			   }
 			get{return editorial;}
 		}
 
